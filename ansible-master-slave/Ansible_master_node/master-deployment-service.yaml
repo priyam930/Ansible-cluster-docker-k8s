@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ansible-master
+  namespace: ansible-cluster
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ansible-master
+  template:
+    metadata:
+      labels:
+        app: ansible-master
+    spec:
+      containers:
+      - name: ansible-master
+        image: priyam930/ansible-master
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 22
+        volumeMounts:
+        - name: ansible-config
+          mountPath: /home/ansible/ansible
+      volumes:
+      - name: ansible-config
+        emptyDir: {}
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ansible-master-svc
+  namespace: ansible-cluster
+spec:
+  selector:
+    app: ansible-master
+  ports:
+    - protocol: TCP
+      port: 22
+      targetPort: 22
+  type: ClusterIP
