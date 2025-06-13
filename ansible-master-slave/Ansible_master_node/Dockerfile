@@ -26,6 +26,6 @@ RUN ssh-keygen -t rsa -f /home/ansible/.ssh/id_rsa -q -N ""
 RUN mkdir -p /home/ansible/ansible/playbooks
 
 COPY ansible.cfg /home/ansible/ansible/ansible.cfg
-COPY inventory.ini /home/ansible/ansible/inventory.ini
+
 
 CMD ["sh", "-c", "tail -f /dev/null"]
